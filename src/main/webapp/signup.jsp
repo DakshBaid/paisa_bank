@@ -5,9 +5,9 @@
 String message="";
 if(status == null) {
     status = "";
-}else if(status == "success"){
+}else if(status.equals("success")){
 	message="Registration Success";
-}else if(status == "fail"){
+}else if(status.equals("fail")){
 	message="Registration Failed";
 }
 %>
@@ -23,9 +23,8 @@ if(status == null) {
 
 </head>
 <%
-	status="";
 	if (request.getMethod().equals("POST")) {
-	String fullName=request.getParameter("fullName");
+		String fullName=request.getParameter("fullName");
 	if(fullName==null || fullName.trim().isEmpty()){
 		out.println("Invalid Name");
 		status="fail";
@@ -54,10 +53,11 @@ if(status == null) {
 	    UserDAO userOb=new UserDAO();
     	boolean check=userOb.registerUser(user);
     	if(check==true){
-    		out.println("Success");
-    	    response.sendRedirect("signup.jsp?status=success");
+    		response.sendRedirect("signup.jsp?status=success");
+    		return;
     	}else{
     	    response.sendRedirect("signup.jsp?status=fail");
+    		return;
     	}
     }else{
     	out.println("Please enter your details correctly");
