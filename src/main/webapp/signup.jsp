@@ -23,6 +23,7 @@ if(status == null) {
 
 </head>
 <%
+	status="";
 	if (request.getMethod().equals("POST")) {
 	String fullName=request.getParameter("fullName");
 	if(fullName==null || fullName.trim().isEmpty()){
@@ -53,11 +54,10 @@ if(status == null) {
 	    UserDAO userOb=new UserDAO();
     	boolean check=userOb.registerUser(user);
     	if(check==true){
-    		message="Registered Successfully";
-    		status="success";
+    		out.println("Success");
+    	    response.sendRedirect("signup.jsp?status=success");
     	}else{
-    		message="Registration Failed";
-    		status="fail";
+    	    response.sendRedirect("signup.jsp?status=fail");
     	}
     }else{
     	out.println("Please enter your details correctly");
