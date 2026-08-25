@@ -29,7 +29,7 @@ package com.paisabank.util;
 		public String sendPass(String recipientEmail, int acc_no) {
 
 	        final String senderEmail = "paisabanktest@gmail.com"; 
-	        final String senderPassword = "bels nxea drno shrh"; 
+	        final String senderPassword = ""; 
 
 	        String otp = generatedOTP();
 
