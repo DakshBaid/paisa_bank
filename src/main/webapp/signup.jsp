@@ -1,6 +1,7 @@
 <%@ page language="java" %>
 <%@ page import="com.paisabank.model.User" %>
 <%@ page import="com.paisabank.dao.UserDAO" %>
+<%String Status = request.getParameter("Status"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,7 +14,6 @@
 
 </head>
 <%
-	String Status="Null";
 	String message="";
 	if (request.getMethod().equals("POST")) {
 	String fullName=request.getParameter("fullName");
