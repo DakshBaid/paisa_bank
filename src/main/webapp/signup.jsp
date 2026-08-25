@@ -1,7 +1,11 @@
 <%@ page language="java" %>
 <%@ page import="com.paisabank.model.User" %>
 <%@ page import="com.paisabank.dao.UserDAO" %>
-<%String Status = request.getParameter("Status"); %>
+<%String status = request.getParameter("status");
+
+if(status == null) {
+    status = "";
+}%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,24 +23,24 @@
 	String fullName=request.getParameter("fullName");
 	if(fullName==null || fullName.trim().isEmpty()){
 		out.println("Invalid Name");
-		Status="Fail";
+		status="Fail";
 	}
 	String email=request.getParameter("email");
 	if(email==null || email.trim().isEmpty() || !email.endsWith("@gmail.com")){
 		out.println("Invalid Email");
-		Status="Fail";
+		status="Fail";
 	}
 	String mobile=request.getParameter("mobile");
 	if(mobile==null || mobile.trim().isEmpty()){
 		out.println("Invalid Mobile");
-		Status="Fail";	
+		status="Fail";	
 	}
 	String password=request.getParameter("password");	
 	if(password==null || password.trim().isEmpty()){
 		out.println("Invalid Password");
-		Status="Fail";
+		status="Fail";
 	}
-    if (!Status.equals("Fail")) {
+    if (!status.equals("Fail")) {
 	User user=new User();
 	user.setFullName(fullName);
 	user.setEmail(email);
@@ -46,10 +50,10 @@
     	boolean check=userOb.registerUser(user);
     	if(check==true){
     		message="Registered Successfully";
-    		Status="Success";
+    		status="Success";
     	}else{
     		message="Registration Failed";
-    		Status="Fail";
+    		status="Fail";
     	}
     }else{
     	out.println("Please enter your details correctly");
