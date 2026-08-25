@@ -2,10 +2,15 @@
 <%@ page import="com.paisabank.model.User" %>
 <%@ page import="com.paisabank.dao.UserDAO" %>
 <%String status = request.getParameter("status");
-
+String message="";
 if(status == null) {
     status = "";
-}%>
+}else if(status == "success"){
+	message="Registration Success";
+}else if(status == "fail"){
+	message="Registration Failed";
+}
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,29 +23,28 @@ if(status == null) {
 
 </head>
 <%
-	String message="";
 	if (request.getMethod().equals("POST")) {
 	String fullName=request.getParameter("fullName");
 	if(fullName==null || fullName.trim().isEmpty()){
 		out.println("Invalid Name");
-		status="Fail";
+		status="fail";
 	}
 	String email=request.getParameter("email");
 	if(email==null || email.trim().isEmpty() || !email.endsWith("@gmail.com")){
 		out.println("Invalid Email");
-		status="Fail";
+		status="fail";
 	}
 	String mobile=request.getParameter("mobile");
 	if(mobile==null || mobile.trim().isEmpty()){
 		out.println("Invalid Mobile");
-		status="Fail";	
+		status="fail";	
 	}
 	String password=request.getParameter("password");	
 	if(password==null || password.trim().isEmpty()){
 		out.println("Invalid Password");
-		status="Fail";
+		status="fail";
 	}
-    if (!status.equals("Fail")) {
+    if (!status.equals("fail")) {
 	User user=new User();
 	user.setFullName(fullName);
 	user.setEmail(email);
@@ -50,10 +54,10 @@ if(status == null) {
     	boolean check=userOb.registerUser(user);
     	if(check==true){
     		message="Registered Successfully";
-    		status="Success";
+    		status="success";
     	}else{
     		message="Registration Failed";
-    		status="Fail";
+    		status="fail";
     	}
     }else{
     	out.println("Please enter your details correctly");
