@@ -25,10 +25,10 @@ package com.paisabank.util;
 		   return tempOTP;
 		}
 		
-		public String sendPass(String recipientEmail, int acc_no) {
+		public String sendOTP(String recipientEmail) {
 
 	        final String senderEmail = "paisabanktest@gmail.com"; 
-	        final String senderPassword = "PAISA_BANK_EMAIL_PASSWORD"; 
+	        final String senderPassword =System.getenv("PAISA_BANK_EMAIL_PASSWORD"); 
 
 	        String otp = generatedOTP();
 
@@ -41,7 +41,7 @@ package com.paisabank.util;
 	        Session session = Session.getInstance(props,
 	                new Authenticator() {
 	                    protected PasswordAuthentication getPasswordAuthentication() {
-	                        return new PasswordAuthentication(senderEmail, senderPassword);
+	                    	return new PasswordAuthentication(senderEmail, senderPassword);
 	                    }
 	                });
 
@@ -55,17 +55,18 @@ package com.paisabank.util;
 	                    InternetAddress.parse(recipientEmail)
 	            );
 
-	            message.setSubject("Your Login Details");
+	            message.setSubject("Paisa Bank - Email Verification\\r\\n\"");
 	            
-	            message.setText("Your Account Number is: "+acc_no+
-	            		"\nYour Temporary OTP is: " + otp +
-	                    "\nDo not share this OTP with anyone.");
+	            message.setText("Your OTP is: "+otp+"\r\n"
+	            		+ "\r\n"
+	            		+ "This OTP is valid for 5 minutes.\r\n"
+	            		+ "Do not share this OTP with anyone.");
 
 	            Transport.send(message);
 
 	            System.out.println("OTP sent successfully to " + recipientEmail);
 
-	        } catch (MessagingException e) {
+	        } catch (Exception e) {
 	            System.out.println("Failed to send OTP: " + e.getMessage());
 	        }
 	        return otp;
