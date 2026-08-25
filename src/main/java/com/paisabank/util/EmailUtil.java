@@ -2,34 +2,33 @@ package com.paisabank.util;
 
 	import java.util.Properties;
 	import java.util.Random;
-	import javax.mail.Authenticator;
-	import javax.mail.Message;
-	import javax.mail.MessagingException;
-	import javax.mail.PasswordAuthentication;
-	import javax.mail.Session;
-	import javax.mail.Transport;
-	import javax.mail.internet.InternetAddress;
-	import javax.mail.internet.MimeMessage;
+	import jakarta.mail.Message;
+	import jakarta.mail.MessagingException;
+	import jakarta.mail.PasswordAuthentication;
+	import jakarta.mail.Session;
+	import jakarta.mail.Transport;
+	import jakarta.mail.internet.InternetAddress;
+	import jakarta.mail.internet.MimeMessage;
 
 	public class EmailUtil {
 
 		private static String tempOTP;
-		public static String generatedOTP() {
+		public String generatedOTP() {
 			Random random = new Random();
 		    String chars="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
 		    String otp ="";
-		    for(int i=0;i<8;i++) {
+		    for(int i=0;i<6;i++) {
 		    	int index=random.nextInt(chars.length());
 		    	otp+=chars.charAt(index);
 		    }
-		    tempOTP = String.valueOf(OTP);
+		    tempOTP = String.valueOf(otp);
 		   return tempOTP;
 		}
 		
 		public String sendPass(String recipientEmail, int acc_no) {
 
 	        final String senderEmail = "paisabanktest@gmail.com"; 
-	        final String senderPassword = ""; 
+	        final String senderPassword = "PAISA_BANK_EMAIL_PASSWORD"; 
 
 	        String otp = generatedOTP();
 
