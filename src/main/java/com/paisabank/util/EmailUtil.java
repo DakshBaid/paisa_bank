@@ -1,8 +1,11 @@
 package com.paisabank.util;
 
-	import java.util.Properties;
+	import java.security.SecureRandom;
+import java.util.Properties;
 	import java.util.Random;
-	import jakarta.mail.Message;
+
+import jakarta.mail.Authenticator;
+import jakarta.mail.Message;
 	import jakarta.mail.MessagingException;
 	import jakarta.mail.PasswordAuthentication;
 	import jakarta.mail.Session;
@@ -14,7 +17,7 @@ package com.paisabank.util;
 
 		private static String tempOTP;
 		public String generatedOTP() {
-			Random random = new Random();
+			SecureRandom random = new SecureRandom();
 		    String chars="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
 		    String otp ="";
 		    for(int i=0;i<6;i++) {
@@ -26,10 +29,10 @@ package com.paisabank.util;
 		}
 		
 		public String sendOTP(String recipientEmail) {
-
-	        final String senderEmail = "paisabanktest@gmail.com"; 
+	        final String senderEmail = "paisabanktest@gmail.com"; 	
 	        final String senderPassword =System.getenv("PAISA_BANK_EMAIL_PASSWORD"); 
-
+	        System.out.println("Password available: " + 
+	                (senderPassword != null && !senderPassword.isEmpty()));
 	        String otp = generatedOTP();
 
 	        Properties props = new Properties();
@@ -37,7 +40,7 @@ package com.paisabank.util;
 	        props.put("mail.smtp.starttls.enable", "true");
 	        props.put("mail.smtp.host", "smtp.gmail.com");
 	        props.put("mail.smtp.port", "587");
-
+	        
 	        Session session = Session.getInstance(props,
 	                new Authenticator() {
 	                    protected PasswordAuthentication getPasswordAuthentication() {
@@ -55,7 +58,7 @@ package com.paisabank.util;
 	                    InternetAddress.parse(recipientEmail)
 	            );
 
-	            message.setSubject("Paisa Bank - Email Verification\\r\\n\"");
+	            message.setSubject("Paisa Bank - Email Verification");
 	            
 	            message.setText("Your OTP is: "+otp+"\r\n"
 	            		+ "\r\n"
@@ -68,6 +71,7 @@ package com.paisabank.util;
 
 	        } catch (Exception e) {
 	            System.out.println("Failed to send OTP: " + e.getMessage());
+	            return "Fail";
 	        }
 	        return otp;
 		} 
